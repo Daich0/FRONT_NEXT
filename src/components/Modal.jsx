@@ -2,7 +2,7 @@
     import { useProducts } from "@/context/productContext";
     import axios from "axios";
 
-    function Modal({ selectedProduct, onClose }) {
+    function Modal({ selectedProduct, onClose, onProductUpdate }) {
     const [editedProduct, setEditedProduct] = useState({ ...selectedProduct });
 
     const handleInputChange = (e) => {
@@ -16,13 +16,15 @@
     const handleUpdateProduct = async () => {
         try {
         const response = await axios.put(
-            `http://localhost:3000/api/products/${editedProduct.id}`,       
+            `http://localhost:3000/api/products/${editedProduct.id}`, editedProduct      
         );
         // Actualizar el estado local o realizar alguna otra acción si es necesario
         console.log("Producto actualizado:", JSON.stringify(response.data));
+        onProductUpdate(response.data.updatedProduct);
         onClose(); // Cerrar el modal después de editar el producto
         } catch (error) {
-        console.error("Error al actualizar el producto", error);
+        console.error("Error al actualizar el producto", error.message);
+        
         }
     };
 

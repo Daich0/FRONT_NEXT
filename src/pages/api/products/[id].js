@@ -1,5 +1,5 @@
 // pages/api/products/[id].
-import { getProductById, actualizarProducto, deleteProduct } from './productsData';
+import { getProductById, actualizarProducto, eliminarProducto } from './productsData';
 export default async function handler(req, res) {
     const { method,query } = req;
     const { id: productId } = query;
@@ -9,7 +9,7 @@ export default async function handler(req, res) {
         // Lógica para manejar la solicitud GET para obtener un producto por ID
        
         const product = await getProductById(productId);
-        console.log(productId)
+       
         if (!product) {
             return res.status(404).json({ message: 'Producto no encontrado' });
         }
@@ -22,12 +22,10 @@ export default async function handler(req, res) {
     case 'PUT':
       try {
         // Lógica para manejar la solicitud PUT para actualizar un producto
-        const { productId } = req.query;
+       
         const updatedProductData = req.body; // Los datos actualizados del producto
 
         const updatedProduct = await actualizarProducto(productId, updatedProductData);
-        console.log(updatedProduct);
-       // console.log(productId, updatedProductData)
         if (!updatedProduct) {
           return res.status(404).json({ message: 'Producto no encontrado para actualizar' });
         }
@@ -40,9 +38,10 @@ export default async function handler(req, res) {
     case 'DELETE':
       try {
         // Lógica para manejar la solicitud DELETE para eliminar un producto
-        const { productId } = req.query;
-        const deletedProduct = await deleteProduct(productId);
-        
+       
+        const deletedProduct = await eliminarProducto(productId);
+        console.log(productId)
+        console.log("helooo  " + JSON.stringify(deletedProduct));
         if (!deletedProduct) {
           return res.status(404).json({ message: 'Producto no encontrado para eliminar' });
         }

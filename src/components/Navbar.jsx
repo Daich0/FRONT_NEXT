@@ -1,37 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import axios from "axios";
+function Navbar({ productId = 1 }) {
+  const [imageSrc, setImageSrc] = useState('');
 
-function Navbar() {
-  const [data, setData] = useState(null);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await getData();
-      setData(response.data); // Cambiado a setData(response.data)
-    } catch (error) {
-      console.error('Error al obtener datos', error);
-    }
-  };
-
-  const getData = async () => {    
-    const result = await fetch('http://localhost:3000/api/products',{        
-      headers: {
-        "Content-type": "application/json"
+  useEffect(() => {
+    async function fetchProductImage() {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/products/${productId}`);
+        const product = response.data.product; // Accede al objeto del producto
+        
+        const image = product.image;
+        
+        if (image) {
+          setImageSrc(image);
+        } else {
+          console.error('La imagen no está disponible para este producto');
+        }
+      } catch (error) {
+        console.error('Error al obtener la imagen del producto', error);
       }
-    });
-    const products = await result.json();
+    }
 
-    return { data: products }; // Devuelve directamente el objeto products
-  };
+    fetchProductImage();
+  }, [productId]);
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8">
-        <div>{JSON.stringify(data)}</div> {/* Muestra los datos como string */}
-        <button type="submit">Obtener Datos</button>
-      </form>
-    </div>
-  );
+  return <img src={imageSrc} alt="Producto" />;
 }
+
 
 export default Navbar;

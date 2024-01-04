@@ -27,10 +27,27 @@ function table({ updateTrigger }) {
     
   }, [updateTrigger]);
 
-  const handleDelete = (indexToDelete) => {
-    const updatedProducts = localProducts.filter((_, index) => index !== indexToDelete);
+  const handleUpdateProduct = (updatedProduct) => {
+    // Actualiza el estado local de localProducts con el producto actualizado
+    const updatedProducts = localProducts.map((product) =>
+      product.id === updatedProduct.id ? updatedProduct : product
+    );
     setLocalProducts(updatedProducts);
   };
+
+  const handleDelete = async (productId) => {
+    try {
+      // Realizar la solicitud DELETE al servidor para eliminar el producto por su ID
+      await axios.delete(`http://localhost:3000/api/products/${productId}`);
+  
+      // Actualizar localmente la lista de productos después de la eliminación
+      const updatedProducts = localProducts.filter((product) => product.id !== productId);
+      setLocalProducts(updatedProducts);
+    } catch (error) {
+      console.error("Error al eliminar el producto", error);
+    }
+  };
+  
 
   const handleEdit = (product) => {
     setSelectedProduct(product);
@@ -92,7 +109,7 @@ function table({ updateTrigger }) {
                 >Editar</button>
               </td>
               <td className="px-6 py-4">
-              <button onClick={() => handleDelete(index)} className="text-red-600 dark:text-red-500 hover:underline">
+              <button onClick={() => handleDelete(product.id)} className="text-red-600 dark:text-red-500 hover:underline">
       Eliminar
     </button>
               </td>
@@ -104,6 +121,7 @@ function table({ updateTrigger }) {
         <Modal
           selectedProduct={selectedProduct}
           onClose={handleCloseModal}
+          onProductUpdate={handleUpdateProduct}
           // Any additional props needed
         />
       )}

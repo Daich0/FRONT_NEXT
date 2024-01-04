@@ -1,10 +1,11 @@
 let products = [
     {
       id: 1,
-      name: 'Smartphone',
-      category: 'Electronics',
+      name: 'Lightsaber',
+      category: 'StarWars',
       price: 599.99,
       description: 'A powerful smartphone with great features.',
+      image:'/images/lightsaber_green.jpg',
     },
     {
         id: 2,
@@ -52,17 +53,21 @@ let products = [
     return newProduct;
   }
   
-  export function actualizarProducto(id,updatedProduct1) {
-    const productToUpdate = products.find((product) => product.id === parseInt(id));
-    if (productToUpdate) {
-    const updatedProduct = { ...productToUpdate, ...updatedProductData };
-    return updatedProduct;
+  export function actualizarProducto(id, updatedProductData) {
+    const productIndex = products.findIndex((product) => product.id === parseInt(id));
+    if (productIndex !== -1) {
+      const updatedProduct = { ...products[productIndex], ...updatedProductData };
+      products[productIndex] = updatedProduct;
+      console.log(products[productIndex]);
+      return updatedProduct;
     }
     return null;
   }
   
-  export function deleteProduct(id) {
+  export function eliminarProducto(id) {
     const index = products.findIndex((product) => product.id === parseInt(id));
+
+
     if (index !== -1) {
       const deletedProduct = products.splice(index, 1);
       return deletedProduct[0];

@@ -1,7 +1,7 @@
 import React from 'react'
 import { UseForm } from '@/hooks/UseForm';
 import Swal from 'sweetalert2';
-import { useProducts } from "@/context/productContext";
+
 import Table from './Table' 
 import { useState } from 'react';
 function form() {
