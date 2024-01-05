@@ -3,6 +3,9 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useProducts } from "@/context/productContext";
 import Modal from "./Modal.jsx";
+
+import Image from 'next/image';
+
 function table({ updateTrigger }) {
  
   const [localProducts, setLocalProducts] = useState([]);
@@ -75,7 +78,7 @@ function table({ updateTrigger }) {
               Precio
             </th>
             <th scope="col" className="px-6 py-3">
-              Descripcion
+              Imagen
             </th>
 
             <th scope="col" className="px-6 py-3">
@@ -100,7 +103,14 @@ function table({ updateTrigger }) {
               </th>
               <td className="px-6 py-4">{product.category}</td>
               <td className="px-6 py-4">{product.price}</td>
-              <td className="px-6 py-4" >{product.description}</td>
+              <td className="px-6 py-4" > 
+              <Image
+                  src={product.image}
+                  alt="Producto"
+                  width={80} // Ancho deseado
+                  height={80} // Alto deseado
+                />
+               </td>
               <td className="px-6 py-4">
               <button
                   
@@ -122,7 +132,6 @@ function table({ updateTrigger }) {
           selectedProduct={selectedProduct}
           onClose={handleCloseModal}
           onProductUpdate={handleUpdateProduct}
-          // Any additional props needed
         />
       )}
     </div>

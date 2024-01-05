@@ -1,9 +1,12 @@
     import React, { useState, useEffect } from "react";
     import { useProducts } from "@/context/productContext";
     import axios from "axios";
+    import Image from "next/image";
+    import ImageUploader from './Image_uploader'; 
 
     function Modal({ selectedProduct, onClose, onProductUpdate }) {
     const [editedProduct, setEditedProduct] = useState({ ...selectedProduct });
+    const [editedImage, setEditedImage] = useState('');
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -14,9 +17,15 @@
     };
     
     const handleUpdateProduct = async () => {
+
+        const updatedProduct = {
+            ...editedProduct,
+            image: editedImage || editedProduct.image // Utiliza la imagen actualizada si está presente, de lo contrario, usa la imagen existente del producto
+          };
+
         try {
         const response = await axios.put(
-            `http://localhost:3000/api/products/${editedProduct.id}`, editedProduct      
+            `http://localhost:3000/api/products/${editedProduct.id}`, updatedProduct      
         );
         // Actualizar el estado local o realizar alguna otra acción si es necesario
         console.log("Producto actualizado:", JSON.stringify(response.data));
@@ -27,6 +36,10 @@
         
         }
     };
+    const handleImageChange = (imageUrl) => {
+        // Aquí podrías manejar la lógica para subir la imagen al servidor si es necesario
+        setEditedImage(imageUrl);
+      };
 
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
@@ -72,19 +85,21 @@
                 className="text-gray-500 rounded-md px-2 py-1 w-full"
                 />
             </div>
-            <div className="mb-4">
-                <label htmlFor="description" className="block mb-1">
-                Descripción:
-                </label>
-                <textarea
-                id="description"
-                name="description"
-                value={editedProduct.description}
-                onChange={handleInputChange}
-                className="text-gray-300 rounded-md px-2 py-1 w-full"
-                rows={4}
-                />
-            </div>
+            
+                <div className="mb-4">
+          <label htmlFor="image" className="block mb-1">
+            Imagen
+          </label>
+          {/* Visualización de la imagen actual o editada */}
+          <Image
+            src={editedImage || editedProduct.image}
+            alt="Producto"
+            width={80}
+            height={80}
+          />
+         <ImageUploader onImageChange={handleImageChange} />
+        </div>
+
             <div className="flex justify-end">
                 <button
                 type="button"

@@ -4,36 +4,40 @@ let products = [
       name: 'Lightsaber',
       category: 'StarWars',
       price: 599.99,
-      description: 'A powerful smartphone with great features.',
+      
       image:'/images/lightsaber_green.jpg',
     },
     {
         id: 2,
-        name: 'Wireless Headphones',
+        name: 'Pokebola',
         category: 'Electronics',
         price: 129.99,
-        description: 'High-quality wireless headphones for immersive sound.',
+     
+        image:'/images/pokebola.png',
       },
       {
         id: 3,
-        name: 'Running Shoes',
-        category: 'Sports & Outdoors',
+        name: 'Infinity-Glove',
+        category: 'MARVEL',
         price: 79.99,
-        description: 'Comfortable and durable running shoes for active users.',
+       
+        image :'/images/infnity_glove.jpg',
       },
       {
         id: 4,
-        name: 'Coffee Maker',
-        category: 'Home & Kitchen',
+        name: 'Mera Mera no Mi',
+        category: 'ONE PIECE',
         price: 49.99,
-        description: 'An efficient coffee maker for brewing your favorite coffee.',
+       
+        image:'/images/mera_mera_nomi.jpg'
       },
       {
         id: 5,
-        name: 'Portable Power Bank',
-        category: 'Accessories',
+        name: 'Death_Note',
+        category: 'the Death note',
         price: 39.99,
-        description: 'A portable power bank for charging your devices on the go.',
+       
+        image:'/images/death_note.jpg',
       }  
     
   ];
